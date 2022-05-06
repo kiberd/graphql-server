@@ -14,9 +14,7 @@ export class PersonService {
   constructor(@InjectModel(Person.name) private personModel: Model<PersonDocument>) {}
 
   create(payload: CreatePersonInput) {
-    console.log(payload);
     const createdPerson = new this.personModel(payload);
-    console.log(createdPerson);
     return createdPerson.save();
   }
 

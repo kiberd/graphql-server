@@ -2,60 +2,54 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-input CreateHobbyInput {
-  name: String!
-}
+directive @upper on FIELD_DEFINITION
 
-input CreatePersonInput {
-  hobbies: [String!]!
-  name: String!
-}
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
 
-type Hobby {
-  _id: String!
-  name: String!
-}
-
-input ListHobbyInput {
+input ListRecipeInput {
   _id: String
-  name: String
-}
-
-input ListPersonInput {
-  _id: String
-  hobbies: [String!]
-  name: String
+  description: String
+  ingredients: [String!]
+  title: String
 }
 
 type Mutation {
-  createHobby(payload: CreateHobbyInput!): Hobby!
-  createPerson(payload: CreatePersonInput!): Person!
-  deleteHobby(_id: String!): Hobby!
-  deletePerson(_id: String!): Person!
-  updateHobby(payload: UpdateHobbyInput!): Hobby!
-  updatePerson(payload: UpdatePersonInput!): Person!
+  createRecipe(payload: NewRecipeInput!): Recipe!
+  deleteRecipe(_id: String!): Recipe!
+  updateRecipe(payload: UpdateRecipeInput!): Recipe!
 }
 
-type Person {
-  _id: String!
-  hobbies(populate: Boolean!): [Hobby!]!
-  name: String!
+input NewRecipeInput {
+  description: String
+  ingredients: [String!]!
+  title: String!
 }
 
 type Query {
-  hobbies(filters: ListHobbyInput): [Hobby!]!
-  hobby(_id: String!): Hobby!
-  person(_id: String!): Person!
-  persons(filters: ListPersonInput): [Person!]!
+  recipe(_id: String!): Recipe!
+  recipes(filters: ListRecipeInput): [Recipe!]!
 }
 
-input UpdateHobbyInput {
+"""recipe"""
+type Recipe {
   _id: String!
-  name: String
+  creationDate: DateTime!
+  description: String
+  ingredients: [String!]!
+  title: String!
 }
 
-input UpdatePersonInput {
+type Subscription {
+  recipeAdded: Recipe!
+  recipeUpdated: Recipe!
+}
+
+input UpdateRecipeInput {
   _id: String!
-  hobbies: [String!]
-  name: String
+  description: String
+  ingredients: [String!]
+  title: String!
 }
